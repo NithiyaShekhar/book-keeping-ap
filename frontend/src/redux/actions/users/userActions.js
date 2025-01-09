@@ -38,7 +38,9 @@ export const registerUser = (name, email, password) => async (dispatch) => {
     dispatch({ type: USER_REGISTER_REQUEST });
 
     const config = { headers: { 'Content-Type': 'application/json' } };
-    const { data } = await axios.post('/api/users', { name, email, password }, config);
+    console.log('Sending request to API');
+    const { data } = await axios.post('http://localhost:5000/api/users', { name, email, password }, config);
+    console.log('Response:', data);
 
     dispatch({ type: USER_REGISTER_SUCCESS, payload: data });
     localStorage.setItem('userAuthData', JSON.stringify(data));
@@ -52,7 +54,7 @@ export const loginUser = (email, password) => async (dispatch) => {
     dispatch({ type: USER_LOGIN_REQUEST });
 
     const config = { headers: { 'Content-Type': 'application/json' } };
-    const { data } = await axios.post('/api/users/login', { email, password }, config);
+    const { data } = await axios.post('http://localhost:5000/api/users/login', { email, password }, config);
 
     dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
     localStorage.setItem('userAuthData', JSON.stringify(data));
@@ -70,7 +72,7 @@ export const getUserProfile = () => async (dispatch, getState) => {
   try {
     dispatch({ type: USER_PROFILE_REQUEST });
 
-    const { data } = await axios.get('/api/users/profile', getAuthConfig(getState));
+    const { data } = await axios.get('http://localhost:5000/api/users/profile', getAuthConfig(getState));
 
     dispatch({ type: USER_PROFILE_SUCCESS, payload: data });
   } catch (error) {
@@ -98,7 +100,7 @@ export const fetchUsers = () => async (dispatch) => {
   try {
     dispatch({ type: FETCH_USERS_REQUEST });
 
-    const { data } = await axios.get('/api/users', {
+    const { data } = await axios.get('http://localhost:5000/api/users', {
       headers: { 'Content-Type': 'application/json' },
     });
 
