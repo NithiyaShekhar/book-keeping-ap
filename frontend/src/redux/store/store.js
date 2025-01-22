@@ -19,8 +19,12 @@ const rootReducer = combineReducers({
   bookDetails: bookDetailReducer,
   usersList: usersListReducer,
 });
+const logger = (store) => (next) => (action) => {
+  console.log('Dispatching action:', action);
+  return next(action);
+};
 
-const middleware = [thunk];
+const middleware = [thunk, logger];
 
 const userAuthFromStorage = localStorage.getItem('userAuthData')
   ? JSON.parse(localStorage.getItem('userAuthData'))

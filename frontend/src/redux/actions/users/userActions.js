@@ -33,19 +33,16 @@ const getErrorPayload = (error) => {
   return error.response?.data?.message || error.message;
 };
 
-export const registerUser = (name, email, password) => async (dispatch) => {
+export const registerUser = (userData) => async (dispatch) => {
   try {
-    dispatch({ type: USER_REGISTER_REQUEST });
-
-    const config = { headers: { 'Content-Type': 'application/json' } };
-    console.log('Sending request to API');
-    const { data } = await axios.post('http://localhost:5000/api/users', { name, email, password }, config);
-    console.log('Response:', data);
-
-    dispatch({ type: USER_REGISTER_SUCCESS, payload: data });
-    localStorage.setItem('userAuthData', JSON.stringify(data));
+    dispatch({ type: 'USER_REGISTER_REQUEST' });
+    const response = await axios.post('http://localhost:5000/api/users', userData);
+    dispatch({ type: 'USER_REGISTER_SUCCESS', payload: response.data });
   } catch (error) {
-    dispatch({ type: USER_REGISTER_FAIL, payload: getErrorPayload(error) });
+    dispatch({
+      type: 'USER_REGISTER_FAIL',
+      payload: error.response ? error.response.data : error.message,
+    });
   }
 };
 

@@ -3910,7 +3910,7 @@ appearance: none;
    padding: 0.5rem 0;
    margin: 0.125rem 0 0;
    font-size: 1rem;
-   color: #839496;
+   color: #ffffff;
    text-align: left;
    list-style: none;
    background-color: #073642;
@@ -3918,6 +3918,9 @@ appearance: none;
    border: 1px solid rgba(0, 0, 0, 0.15);
    border-radius: 0.25rem;
  }
+ .dropdown-menu li:hover {
+  background-color: transparent; /* Removes background color on hover */
+}
  
  .dropdown-menu-left {
    right: auto;

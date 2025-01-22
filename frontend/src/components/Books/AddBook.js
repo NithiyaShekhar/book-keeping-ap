@@ -1,130 +1,120 @@
-// const Login = () => {
-//   return (
-//     <div>
-//       <h1>Login</h1>
-//     </div>
-//   );
-// };
-
 import React, { useState } from 'react';
-import { createBook } from '../../redux/actions/books/bookActions';
 import { useDispatch, useSelector } from 'react-redux';
+import { createBook } from '../../redux/actions/books/bookActions';
 
-const AddBook = ({ history }) => {
+const AddBook = () => {
+  const [showModal, setShowModal] = useState(false);
   const [category, setCategory] = useState('');
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
 
-  //Get the user id from store
-
-  const userLogin = useSelector(state => state.userLogin);
-
-  const { userInfo } = userLogin;
-  console.log(userInfo._id);
-  //dispatch action
   const dispatch = useDispatch();
 
-  const formSubmitHandler = e => {
+  // Get user info from Redux store
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  const openModal = () => setShowModal(true);
+  const closeModal = () => setShowModal(false);
+
+  const formSubmitHandler = (e) => {
+    e.preventDefault();
+
     const data = {
       category,
       title,
       author,
-      createdBy: userInfo && userInfo._id,
+      createdBy: userInfo?._id, // Use optional chaining for safety
     };
-    e.preventDefault();
+
+    console.log('Data submitted:', data);
     dispatch(createBook(data));
-    history.push('/books');
+
+    // Close the modal after submission
+    closeModal();
   };
-  console.log(category);
+
   return (
-    <div className='row container-height'>
-      <div className='col-lg-6 col-md-6 m-auto'>
-        <div className='container'>
+    <div className="row container-height">
+      <div className="col-lg-6 col-md-6 m-auto">
+        <div className="container">
           <button
-            type='button'
-            className='btn btn-primary'
-            data-toggle='modal'
-            data-target='#exampleModal'>
-            Click to add Book.
+            type="button"
+            className="btn btn-primary"
+            onClick={openModal}>
+            Click to add Book
           </button>
 
-          <div
-            className='modal fade'
-            id='exampleModal'
-            tabIndex='-1'
-            aria-labelledby='exampleModalLabel'
-            aria-hidden='true'>
-            <div className='modal-dialog'>
-              <div className='modal-content'>
-                <div className='modal-header'>
-                  <h5 className='modal-title' id='exampleModalLabel'>
-                    Create Book
-                  </h5>
-                  <button
-                    type='button'
-                    className='close'
-                    data-dismiss='modal'
-                    aria-label='Close'>
-                    <span aria-hidden='true'>&times;</span>
-                  </button>
-                </div>
-                <div className='modal-body'>
-                  <h1 className='text-center'>Add Book</h1>
-                  <form onSubmit={formSubmitHandler}>
-                    <fieldset>
-                      <div className='form-group'>
-                        <select
-                          value={category}
-                          onChange={e => setCategory(e.target.value)}
-                          className='custom-select'>
-                          <option defaultValue='programming'>
-                            programming
-                          </option>
-                          <option value='religion'>Religion</option>
-                          <option value='life'>life</option>
-                          <option value='culture'>culture</option>
-                        </select>
-                      </div>
-                      <div className='form-group'>
-                        <label htmlFor='exampleInputEmail1'>Author </label>
-                        <input
-                          value={author}
-                          onChange={e => setAuthor(e.target.value)}
-                          type='text'
-                          className='form-control'
-                          id='exampleInputEmail1'
-                          aria-describedby='emailHelp'
-                          placeholder='Author name'
-                        />
-                      </div>
-                      <div className='form-group'>
-                        <label htmlFor='exampleInputPassword1'>title</label>
-                        <input
-                          value={title}
-                          onChange={e => setTitle(e.target.value)}
-                          type='text'
-                          className='form-control'
-                          id='exampleInputPassword1'
-                          placeholder='Book title'
-                        />
-                      </div>
-                      <button type='submit' className='btn btn-warning m-auto'>
-                        Create Book
-                      </button>
-                    </fieldset>
-                  </form>
-                </div>
-                <div className='modal-footer'>
-                  <button
-                    type='button'
-                    className='btn btn-danger'
-                    data-dismiss='modal'>
-                    Close
-                  </button>
+          {showModal && (
+            <div className="modal show d-block" tabIndex="-1" role="dialog">
+              <div className="modal-dialog" role="document">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <h5 className="modal-title">Create Book</h5>
+                    <button
+                      type="button"
+                      className="close"
+                      onClick={closeModal}
+                      aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div className="modal-body">
+                    <h1 className="text-center">Add Book</h1>
+                    <form onSubmit={formSubmitHandler}>
+                      <fieldset>
+                        <div className="form-group">
+                          <select
+                            value={category}
+                            onChange={(e) => setCategory(e.target.value)}
+                            className="custom-select">
+                            <option value="">Select Category</option>
+                            <option value="programming">Programming</option>
+                            <option value="religion">Religion</option>
+                            <option value="life">Life</option>
+                            <option value="culture">Culture</option>
+                          </select>
+                        </div>
+                        <div className="form-group">
+                          <label htmlFor="authorInput">Author</label>
+                          <input
+                            id="authorInput"
+                            value={author}
+                            onChange={(e) => setAuthor(e.target.value)}
+                            type="text"
+                            className="form-control"
+                            placeholder="Author name"
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label htmlFor="titleInput">Title</label>
+                          <input
+                            id="titleInput"
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            type="text"
+                            className="form-control"
+                            placeholder="Book title"
+                          />
+                        </div>
+                        <button type="submit" className="btn btn-warning m-auto">
+                          Create Book
+                        </button>
+                      </fieldset>
+                    </form>
+                  </div>
+                  <div className="modal-footer">
+                    <button
+                      type="button"
+                      className="btn btn-danger"
+                      onClick={closeModal}>
+                      Close
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

@@ -18,18 +18,12 @@ const userReducer = (state = initialState, action) => {
   switch (action.type) {
     // Register
     case USER_REGISTER_REQUEST:
-      return { ...state, loading: true };
+      return { ...state, loading: true, error: null };
     case USER_REGISTER_SUCCESS:
-      return {
-        loading: false,
-        userInfo: action.payload,
-        error: null, // Clear any previous errors
-      };
+      return { ...state, loading: false, userInfo: action.payload, error: null };
+
     case USER_REGISTER_FAIL:
-      return {
-        loading: false,
-        error: action.payload,
-      };
+      return { ...state, loading: false, error: action.payload };
     // Login
     case USER_LOGIN_REQUEST:
       return {

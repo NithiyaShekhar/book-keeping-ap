@@ -3,7 +3,7 @@ import { deleteBook } from '../../redux/actions/books/bookActions';
 import { useDispatch } from 'react-redux';
 
 const Book = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch();  
   return (
     <div>
       <div className='card mb-3' style={{ maxWidth: '540px' }}>

@@ -21,32 +21,36 @@ const axiosInstance = axios.create({
   baseURL: 'http://localhost:5000',
 });
 
-export const createBook = bookData => {
-  return async dispatch => {
-    try {
-      dispatch({
-        type: CREATE_BOOK_REQUEST,
-        loading: true,
-      });
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      };
-      const { data } = await axiosInstance.post('/api/books', bookData, config);
+export const createBook = (data) => async (dispatch, getState) => {
+  try {
+    console.log('Data being sent:', data);
 
-      dispatch({
-        type: CREATE_BOOK_SUCCESS,
-        payload: data,
-      });
-    } catch (error) {
-      dispatch({
-        type: CREATE_BOOK_FAIL,
-        error: error.response && error.response.data.message,
-      });
-    }
-  };
+    dispatch({ type: 'CREATE_BOOK_REQUEST' });
+
+    const { userLogin: { userInfo } } = getState();
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data: createdBook } = await axios.post('/api/books', data, config);
+
+    dispatch({
+      type: 'CREATE_BOOK_SUCCESS',
+      payload: createdBook,
+    });
+  } catch (error) {
+    console.error('Axios error:', error.response?.data || error.message);
+    dispatch({
+      type: 'CREATE_BOOK_FAIL',
+      payload: error.response?.data?.message || error.message,
+    });
+  }
 };
+
 
 //Fetch all books
 
