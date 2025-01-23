@@ -23,6 +23,9 @@ app.use(cors({
   allowedHeaders: ['Content-Type'],
 }));// Enable CORS for all routes
 app.use(express.json()); // Parse JSON request body
+app.get('/api', (req, res) => {
+  res.send('Hello from Node.js on Vercel!');
+});
 
 // Routes
 app.use('/api/users', userRouter); 
@@ -54,3 +57,5 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+module.exports = app;
