@@ -8,6 +8,15 @@ const error = require('../middlewares/errorMiddleware');
 require('../config/dbConnect')();
 
 const app = express();
+// Public Route
+app.get('/public', (req, res) => {
+  res.send('This is a public route.');
+});
+
+// Private Route (protected by authentication middleware)
+app.get('/private', isAuthenticated, (req, res) => {
+  res.send('This is a private route. You must be logged in to see this.');
+});
 const path = require('path');
 app.use(express.static(path.join(__dirname, '../client/build')));
 
@@ -48,9 +57,26 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
+app.get('/api/public-posts', (req, res) => {
+  const publicPosts = [
+    { id: 1, title: 'Public Post 1' },
+    { id: 2, title: 'Public Post 2' },
+  ];
+  res.json(publicPosts);
+});
+
+
 // Error Handling Middlewares
 app.use(error.notfoundErrorMiddleware);
 app.use(error.errorMiddlewareHandler);
+
+// Middleware to check authentication
+function isAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.status(401).send('Unauthorized');
+}
 
 // Server
 const PORT = process.env.PORT || 5000;
