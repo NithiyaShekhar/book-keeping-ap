@@ -15,7 +15,7 @@ app.use(express.json()); // Parse JSON request body
 // Dynamic CORS Configuration
 const allowedOrigins = [
   'http://localhost:3000', // Local development frontend
-  'https://your-production-domain.com', // Replace with your production domain
+  'https://book-keeping-ap-finale.vercel.app/', // Replace with your production domain
 ];
 app.use(
   cors({
