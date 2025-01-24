@@ -21,9 +21,9 @@ const userReducer = (state = initialState, action) => {
       return { ...state, loading: true, error: null };
     case USER_REGISTER_SUCCESS:
       return { ...state, loading: false, userInfo: action.payload, error: null };
-
     case USER_REGISTER_FAIL:
       return { ...state, loading: false, error: action.payload };
+    
     // Login
     case USER_LOGIN_REQUEST:
       return {
@@ -41,9 +41,11 @@ const userReducer = (state = initialState, action) => {
         loading: false,
         error: action.payload,
       };
+    
     // Logout
     case USER_LOGOUT:
       return initialState;  // Reset to the initial state when logging out
+
     default:
       return state;
   }

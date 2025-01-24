@@ -1,3 +1,4 @@
+// src/components/Register/Register.js
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
@@ -7,9 +8,9 @@ import Loading from '../Loading/Loading';
 import ErrorMessage from '../DisplayMessage/ErrorMessage';
 
 const Register = () => {
-  const [name, setname] = useState('');
-  const [email, setemail] = useState('');
-  const [password, setpassword] = useState('');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const userLogin = useSelector(state => state.userLogin);
   const { userInfo, loading, error } = userLogin;
@@ -39,7 +40,7 @@ const Register = () => {
                 <label htmlFor='name'>Name</label>
                 <input
                   value={name}
-                  onChange={e => setname(e.target.value)}
+                  onChange={e => setName(e.target.value)}
                   type='text'
                   className='form-control'
                   id='name'
@@ -50,7 +51,7 @@ const Register = () => {
                 <label htmlFor='email'>Email address</label>
                 <input
                   value={email}
-                  onChange={e => setemail(e.target.value)}
+                  onChange={e => setEmail(e.target.value)}
                   type='email'
                   className='form-control'
                   id='email'
@@ -61,7 +62,7 @@ const Register = () => {
                 <label htmlFor='password'>Password</label>
                 <input
                   value={password}
-                  onChange={e => setpassword(e.target.value)}
+                  onChange={e => setPassword(e.target.value)}
                   type='password'
                   className='form-control'
                   id='password'
