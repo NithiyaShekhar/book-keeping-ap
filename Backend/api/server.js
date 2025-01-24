@@ -8,6 +8,30 @@ const error = require('../middlewares/errorMiddleware');
 require('../config/dbConnect')();
 
 const app = express();
+
+// Middleware
+app.use(express.json()); // Parse JSON request body
+
+// Dynamic CORS Configuration
+const allowedOrigins = [
+  'http://localhost:3000', // Local development frontend
+  'https://your-production-domain.com', // Replace with your production domain
+];
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
+    allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
+    credentials: true, // Allow cookies
+  })
+);
+
 // Public Route
 app.get('/public', (req, res) => {
   res.send('This is a public route.');
@@ -17,30 +41,21 @@ app.get('/public', (req, res) => {
 app.get('/private', isAuthenticated, (req, res) => {
   res.send('This is a private route. You must be logged in to see this.');
 });
-const path = require('path');
-app.use(express.static(path.join(__dirname, '../client/build')));
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
-});
-
-
-// Middleware
-app.use(cors({
-  origin: 'http://localhost:3000', 
-  methods: ['GET', 'POST'],
-  allowedHeaders: ['Content-Type'],
-}));// Enable CORS for all routes
-app.use(express.json()); // Parse JSON request body
-app.get('/api', (req, res) => {
-  res.send('Hello from Node.js on Vercel!');
-});
 
 // Routes
-app.use('/api/users', userRouter); 
-app.use('/api/books', bookRouter); 
+app.use('/api/users', userRouter);
+app.use('/api/books', bookRouter);
 
-// Static Files
+// Public Posts Endpoint
+app.get('/api/public-posts', (req, res) => {
+  const publicPosts = [
+    { id: 1, title: 'Public Post 1' },
+    { id: 2, title: 'Public Post 2' },
+  ];
+  res.json(publicPosts);
+});
+
+// Static Files for Uploaded Content
 const __dirname2 = path.resolve();
 app.use('/uploads', express.static(path.join(__dirname2, '/uploads')));
 
@@ -57,26 +72,17 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-app.get('/api/public-posts', (req, res) => {
-  const publicPosts = [
-    { id: 1, title: 'Public Post 1' },
-    { id: 2, title: 'Public Post 2' },
-  ];
-  res.json(publicPosts);
-});
-
-
-// Error Handling Middlewares
-app.use(error.notfoundErrorMiddleware);
-app.use(error.errorMiddlewareHandler);
-
 // Middleware to check authentication
 function isAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
+  if (req.isAuthenticated && req.isAuthenticated()) {
     return next();
   }
   res.status(401).send('Unauthorized');
 }
+
+// Error Handling Middlewares
+app.use(error.notfoundErrorMiddleware);
+app.use(error.errorMiddlewareHandler);
 
 // Server
 const PORT = process.env.PORT || 5000;
