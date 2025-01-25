@@ -18,6 +18,9 @@
     "popper.js": "^1.16.1",
     "web-vitals": "^4.2.4"
   },
+  "engines": {
+  "node": ">=18.x"
+},
   "scripts": {
     "start": " node Backend/server.js",
     "server": "nodemon Backend/server.js",
