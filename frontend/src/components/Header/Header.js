@@ -192,7 +192,7 @@ const Header = () => {
                 <a
                   className='nav-link dropdown-toggle btn-dark'
                   data-toggle='dropdown'
-                  href='/'
+                  // href='/'
                   role='button'
                   aria-haspopup='true'
                   aria-expanded='false'>

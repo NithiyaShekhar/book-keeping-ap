@@ -10,6 +10,11 @@ import AddBook from './components/Books/AddBook';
 import UpdateProfile from './components/UpdateProfile/UpdateProfile';
 import BookDetail from './components/Books/BookDetail';
 import Users from './components/Users/Users';
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+
 
 const App = () => {
   return (
