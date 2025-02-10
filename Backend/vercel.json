@@ -1,8 +1,4 @@
 {
-  "version": 2,
-  "routes": [
-    { "src": "/(.*)", "dest": "Backend/server.js" }
-  ],
   "headers": [
     {
       "source": "/(.*)",
@@ -14,4 +10,3 @@
     }
   ]
 }
-
