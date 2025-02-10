@@ -32,7 +32,9 @@
     "client": "npm start --prefix frontend",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "build": "node build.js",
-    "vercel-build": "node ./build.js"
+    "vercel-build": "node ./build.js",
+     "buildCommand": "npm run build",
+    "outputDirectory": "build"
   },
   "builds": [
     {

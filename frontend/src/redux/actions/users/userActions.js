@@ -18,7 +18,10 @@ import {
   FETCH_USERS_SUCCESS,
 } from '../actionTypes';
 
-// Helper to get headers with token
+// ✅ Set API Base URL from environment variables
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
+// ✅ Helper function to get headers with auth token
 const getAuthConfig = (getState) => {
   const { userInfo } = getState().userLogin;
   return {
@@ -29,29 +32,37 @@ const getAuthConfig = (getState) => {
   };
 };
 
+// ✅ Helper function to handle API errors
 const getErrorPayload = (error) => {
   return error.response?.data?.message || error.message;
 };
 
+// ✅ Register User
 export const registerUser = (userData) => async (dispatch) => {
   try {
     dispatch({ type: USER_REGISTER_REQUEST });
-    const response = await axios.post('https://book-keeping-ap-cors-git-master-nithiyas-projects.vercel.app/register', userData);
+
+    const response = await axios.post(
+      `${process.env.REACT_APP_BACKEND_URL}/register`, userData, {
+      headers: { 'Content-Type': 'application/json' },
+    });
+
     dispatch({ type: USER_REGISTER_SUCCESS, payload: response.data });
   } catch (error) {
-    dispatch({
-      type: USER_REGISTER_FAIL,
-      payload: getErrorPayload(error),
-    });
+    dispatch({ type: USER_REGISTER_FAIL, payload: getErrorPayload(error) });
   }
 };
 
+// ✅ Login User
 export const loginUser = (email, password) => async (dispatch) => {
   try {
     dispatch({ type: USER_LOGIN_REQUEST });
 
-    const config = { headers: { 'Content-Type': 'application/json' } };
-    const { data } = await axios.post('http://localhost:5000/api/users/login', { email, password }, config);
+    const { data } = await axios.post(
+      `${API_BASE_URL}/users/login`,
+      { email, password },
+      { headers: { 'Content-Type': 'application/json' } }
+    );
 
     dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
     localStorage.setItem('userAuthData', JSON.stringify(data));
@@ -60,16 +71,18 @@ export const loginUser = (email, password) => async (dispatch) => {
   }
 };
 
+// ✅ Logout User
 export const logoutUser = () => (dispatch) => {
   localStorage.removeItem('userAuthData');
   dispatch({ type: USER_LOGOUT });
 };
 
+// ✅ Get User Profile
 export const getUserProfile = () => async (dispatch, getState) => {
   try {
     dispatch({ type: USER_PROFILE_REQUEST });
 
-    const { data } = await axios.get('http://localhost:5000/api/users/profile', getAuthConfig(getState));
+    const { data } = await axios.get(`${API_BASE_URL}/users/profile`, getAuthConfig(getState));
 
     dispatch({ type: USER_PROFILE_SUCCESS, payload: data });
   } catch (error) {
@@ -77,12 +90,13 @@ export const getUserProfile = () => async (dispatch, getState) => {
   }
 };
 
+// ✅ Update User
 export const updateUser = (name, email, password) => async (dispatch, getState) => {
   try {
     dispatch({ type: USER_UPDATE_REQUEST });
 
     const { data } = await axios.put(
-      '/api/users/profile/update',
+      `${API_BASE_URL}/users/profile/update`,
       { name, email, password },
       getAuthConfig(getState)
     );
@@ -93,11 +107,12 @@ export const updateUser = (name, email, password) => async (dispatch, getState) 
   }
 };
 
+// ✅ Fetch All Users
 export const fetchUsers = () => async (dispatch) => {
   try {
     dispatch({ type: FETCH_USERS_REQUEST });
 
-    const { data } = await axios.get('http://localhost:5000/api/users', {
+    const { data } = await axios.get(`${API_BASE_URL}/users`, {
       headers: { 'Content-Type': 'application/json' },
     });
 

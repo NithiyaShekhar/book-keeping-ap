@@ -2,8 +2,9 @@ require('dotenv').config();
 const path = require('path');
 const cors = require('cors');
 const express = require('express');
-const userRouter = require('./routes/userRoutes'); // User Routes
-const bookRouter = require('./routes/bookRoutes'); // Book Routes
+const router = express.Router();
+const userRouter = require('./routes/userRoutes');
+const bookRouter = require('./routes/bookRoutes');
 const error = require('./middlewares/errorMiddleware');
 require('./config/dbConnect')();
 
@@ -13,15 +14,16 @@ app.use(cors());
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:3000','https://book-keeping-app-82hs.onrender.com'], // Frontend URL
+  origin: ['http://localhost:3000','https://book-keeping-app-82hs.onrender.com'], 
   methods: ['GET', 'POST'],
+  credentials: true,
   allowedHeaders: ['Content-Type'],
-}));// Enable CORS for all routes
-app.use(express.json()); // Parse JSON request body
+}));
+app.use(express.json()); 
 
 // Routes
-app.use('/api/users', userRouter); // User-related routes
-app.use('/api/books', bookRouter); // Book-related routes
+app.use('/api/users', userRouter); 
+app.use('/api/books', bookRouter); 
 
 // Static Files
 const __dirname2 = path.resolve();
