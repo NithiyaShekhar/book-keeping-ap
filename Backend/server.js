@@ -1,7 +1,7 @@
 require('dotenv').config();
 const path = require('path');
-const express = require('express');
 const cors = require('cors');
+const express = require('express');
 const userRouter = require('./routes/userRoutes'); // User Routes
 const bookRouter = require('./routes/bookRoutes'); // Book Routes
 const error = require('./middlewares/errorMiddleware');
@@ -9,9 +9,11 @@ require('./config/dbConnect')();
 
 const app = express();
 
+app.use(cors());
+
 // Middleware
 app.use(cors({
-  origin: 'http://localhost:3000', // Frontend URL
+  origin: 'https://book-shelf-y0tc.onrender.com//api', // Frontend URL
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type'],
 }));// Enable CORS for all routes
