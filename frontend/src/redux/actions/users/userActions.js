@@ -36,7 +36,7 @@ const getErrorPayload = (error) => {
 export const registerUser = (userData) => async (dispatch) => {
   try {
     dispatch({ type: USER_REGISTER_REQUEST });
-    const response = await axios.post('https://book-keeping-ap-final-git-master-nithiyas-projects.vercel.app', userData);
+    const response = await axios.post('https://book-keeping-ap-cors-git-master-nithiyas-projects.vercel.app/register', userData);
     dispatch({ type: USER_REGISTER_SUCCESS, payload: response.data });
   } catch (error) {
     dispatch({

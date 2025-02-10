@@ -13,7 +13,7 @@ app.use(cors());
 
 // Middleware
 app.use(cors({
-  origin: 'https://book-shelf-y0tc.onrender.com//api', // Frontend URL
+  origin: ['http://localhost:3000','https://book-keeping-app-82hs.onrender.com'], // Frontend URL
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type'],
 }));// Enable CORS for all routes
