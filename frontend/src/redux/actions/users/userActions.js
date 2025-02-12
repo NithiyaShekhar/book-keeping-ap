@@ -43,9 +43,10 @@ export const registerUser = (userData) => async (dispatch) => {
     dispatch({ type: USER_REGISTER_REQUEST });
 
     const response = await axios.post(
-      `${process.env.REACT_APP_BACKEND_URL}/register`, userData, {
-      headers: { 'Content-Type': 'application/json' },
-    });
+      'https://book-keeping-app-82hs.onrender.com/api/users', 
+      userData,
+      { headers: { 'Content-Type': 'application/json' } }
+    );
 
     dispatch({ type: USER_REGISTER_SUCCESS, payload: response.data });
   } catch (error) {
@@ -59,7 +60,7 @@ export const loginUser = (email, password) => async (dispatch) => {
     dispatch({ type: USER_LOGIN_REQUEST });
 
     const { data } = await axios.post(
-      `${API_BASE_URL}/users/login`,
+      `${API_BASE_URL}/api/users/login`,
       { email, password },
       { headers: { 'Content-Type': 'application/json' } }
     );
@@ -112,7 +113,7 @@ export const fetchUsers = () => async (dispatch) => {
   try {
     dispatch({ type: FETCH_USERS_REQUEST });
 
-    const { data } = await axios.get(`${API_BASE_URL}/users`, {
+    const { data } = await axios.get(`${API_BASE_URL}/api/users`, {
       headers: { 'Content-Type': 'application/json' },
     });
 

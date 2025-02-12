@@ -17,7 +17,7 @@ app.use(cors({
   origin: ['http://localhost:3000','https://book-keeping-app-82hs.onrender.com'], 
   methods: ['GET', 'POST'],
   credentials: true,
-  allowedHeaders: ['Content-Type'],
+  allowedHeaders: ['Content-Type']
 }));
 app.use(express.json()); 
 
