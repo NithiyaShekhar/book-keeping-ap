@@ -14,7 +14,7 @@ app.use(cors());
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:3000','https://book-keeping-app-82hs.onrender.com'], 
+  origin: ['http://localhost:3000','https://book-keeping-appfront.onrender.com'], 
   methods: ['GET', 'POST'],
   credentials: true,
   allowedHeaders: ['Content-Type']
