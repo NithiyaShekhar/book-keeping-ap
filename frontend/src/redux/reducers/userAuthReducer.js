@@ -5,13 +5,16 @@ import {
   USER_LOGIN_REQUEST,
   USER_LOGIN_FAIL,
   USER_LOGIN_SUCCESS,
-  USER_LOGOUT,
+  USER_LOGOUT,FORGOT_PASSWORD_FAIL,FORGOT_PASSWORD_REQUEST,FORGOT_PASSWORD_SUCCESS,
 } from '../actions/actionTypes';
 
 const initialState = {
-  userInfo: null,  // userInfo starts as null (before registration/login)
-  loading: false,  // loading starts as false
-  error: null,     // error starts as null
+  userInfo: null,  
+  loading: false, 
+  error: null, 
+  forgotPasswordLoading: false,
+  forgotPasswordSuccess: null,  
+  forgotPasswordMessage: null, 
 };
 
 const userReducer = (state = initialState, action) => {
@@ -44,7 +47,17 @@ const userReducer = (state = initialState, action) => {
     
     // Logout
     case USER_LOGOUT:
-      return initialState;  // Reset to the initial state when logging out
+      return initialState;  
+
+    // Forgot Password
+     // Forgot Password
+     case FORGOT_PASSWORD_REQUEST:
+      return { ...state, forgotPasswordLoading: true, forgotPasswordSuccess: null, error: null };
+    case FORGOT_PASSWORD_SUCCESS:
+      return { ...state, forgotPasswordLoading: false, forgotPasswordSuccess: action.payload };
+    case FORGOT_PASSWORD_FAIL:
+      return { ...state, forgotPasswordLoading: false, error: action.payload };
+
 
     default:
       return state;

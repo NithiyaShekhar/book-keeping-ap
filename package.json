@@ -4,10 +4,7 @@
   "private": true,
   "main": "Backend/server.js",
   "dependencies": {
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.0",
     "@fontsource/roboto": "^5.1.1",
-    "@mui/icons-material": "^6.4.2",
     "@popperjs/core": "^2.11.8",
     "axios": "^1.7.9",
     "bcryptjs": "^2.4.3",
@@ -33,7 +30,7 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "build": "node build.js",
     "vercel-build": "node ./build.js",
-     "buildCommand": "npm run build",
+    "buildCommand": "npm run build",
     "outputDirectory": "build"
   },
   "builds": [

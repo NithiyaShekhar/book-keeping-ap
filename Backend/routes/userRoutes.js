@@ -3,6 +3,7 @@ const asynchHandler = require('express-async-handler');
 const authMiddleware = require('../middlewares/authMiddleware');
 const User = require('../models/User');
 const authTokenGenerator = require('../utils/authTokenGenerator');
+const { forgotPasswordController } = require('../../controllers/userController');
 
 const userRouter = express.Router();
 
@@ -97,7 +98,9 @@ userRouter.put(
     }
   })
 );
+//Forgot Password 
 
+userRouter.post("/forgot-password",forgotPasswordController);
 // Fetch all users
 userRouter.get(
   '/',

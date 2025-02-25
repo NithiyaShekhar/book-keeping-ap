@@ -10,6 +10,7 @@ import bookDetailReducer from '../reducers/books/bookDetailsReducer';
 import usersListReducer from '../reducers/usersListReducer';
 
 
+
 const rootReducer = combineReducers({
   userLogin: userReducer,
   userProfile: userProfileReducer,
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   booksList: booksListReducer,
   bookDetails: bookDetailReducer,
   usersList: usersListReducer,
+  user:userReducer,
 });
 const logger = (store) => (next) => (action) => {
   console.log('Dispatching action:', action);

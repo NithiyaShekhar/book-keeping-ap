@@ -14,6 +14,7 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
+import ForgotPassword from './components/ForgotPassword/ForgotPassword';
 
 
 const App = () => {
@@ -24,6 +25,7 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path='/forgot-password' element={<ForgotPassword/>}/>
         <Route path="/profile" element={<Profile />} />
         <Route path="/books" element={<Books />} />
         <Route path="/addbook" element={<AddBook />} />

@@ -15,7 +15,7 @@ import {
   USER_UPDATE_FAIL,
   FETCH_USERS_REQUEST,
   FETCH_USERS_FAIL,
-  FETCH_USERS_SUCCESS,
+  FETCH_USERS_SUCCESS,FORGOT_PASSWORD_REQUEST,FORGOT_PASSWORD_SUCCESS, FORGOT_PASSWORD_FAIL,
 } from '../actionTypes';
 
 // ✅ Set API Base URL from environment variables
@@ -69,6 +69,25 @@ export const loginUser = (email, password) => async (dispatch) => {
     localStorage.setItem('userAuthData', JSON.stringify(data));
   } catch (error) {
     dispatch({ type: USER_LOGIN_FAIL, payload: getErrorPayload(error) });
+  }
+};
+
+//  ✅ Forgot Password
+export const forgotPassword = (email) => async (dispatch) => {
+  try {
+    dispatch({ type: FORGOT_PASSWORD_REQUEST });
+
+    const response = await axios.post(`${API_BASE_URL}/api/users/forgot-password`, 
+      { email }, 
+      { headers: { "Content-Type": "application/json" } }
+    );
+
+    dispatch({ type: FORGOT_PASSWORD_SUCCESS, payload: response.data.message });
+  } catch (error) {
+    dispatch({
+      type: FORGOT_PASSWORD_FAIL,
+      payload: error.response?.data?.message || "Something went wrong",
+    });
   }
 };
 

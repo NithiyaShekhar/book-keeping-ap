@@ -1,82 +1,90 @@
-// src/components/Register/Register.js
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import './Register.css';
-import { registerUser } from '../../redux/actions/users/userActions';
-import Loading from '../Loading/Loading';
-import ErrorMessage from '../DisplayMessage/ErrorMessage';
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { registerUser } from "../../redux/actions/users/userActions";
+import {
+  Container,
+  Box,
+  Typography,
+  TextField,
+  Button,
+  CircularProgress,
+  Alert,
+} from "@mui/material";
+import { Link } from "react-router-dom";
 
 const Register = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const userLogin = useSelector(state => state.userLogin);
-  const { userInfo, loading, error } = userLogin;
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate();
 
-  const formSubmitHandler = e => {
+  const userRegister = useSelector((state) => state.userRegister) || {};
+  const { userInfo, loading, error } = userRegister;
+  console.log(userRegister);
+
+  const formSubmitHandler = (e) => {
     e.preventDefault();
     dispatch(registerUser({ name, email, password }));
     if (userInfo) {
-      navigate('/'); // Use navigate instead of history.push
+      navigate("/");
     }
   };
 
   return (
-    <div className='row container-height'>
-      <div className='col-lg-6 col-md-6 m-auto'>
-        <div className='container'>
-          {loading && <Loading />}
-          {error && <ErrorMessage error={error.message || 'Something went wrong'} />}
-          <h1 className='text-center'>Register</h1>
-
-          <form onSubmit={formSubmitHandler}>
-            <fieldset>
-              <div className='form-group'>
-                <label htmlFor='name'>Name</label>
-                <input
-                  value={name}
-                  onChange={e => setName(e.target.value)}
-                  type='text'
-                  className='form-control'
-                  id='name'
-                  placeholder='Enter Name'
-                />
-              </div>
-              <div className='form-group'>
-                <label htmlFor='email'>Email address</label>
-                <input
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  type='email'
-                  className='form-control'
-                  id='email'
-                  placeholder='Enter email'
-                />
-              </div>
-              <div className='form-group'>
-                <label htmlFor='password'>Password</label>
-                <input
-                  value={password}
-                  onChange={e => setPassword(e.target.value)}
-                  type='password'
-                  className='form-control'
-                  id='password'
-                  placeholder='Password'
-                />
-              </div>
-              <button type='submit' className='btn btn-info m-auto'>
-                Register
-              </button>
-            </fieldset>
-          </form>
-        </div>
-      </div>
-    </div>
+    <Container maxWidth="xs">
+      <Box sx={{ mt: 8, p: 3, borderRadius: 2, boxShadow: 3, bgcolor: "white" }}>
+        <Typography variant="h5" fontWeight="bold" align="center" gutterBottom>
+          Sign Up
+        </Typography>
+        {loading && <CircularProgress sx={{ display: "block", mx: "auto" }} />}
+        {error && <Alert severity="error">{error.message || "Something went wrong"}</Alert>}
+        <form onSubmit={formSubmitHandler}>
+          <TextField
+            fullWidth
+            label="Name"
+            variant="outlined"
+            margin="normal"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <TextField
+            fullWidth
+            label="Email Address"
+            variant="outlined"
+            margin="normal"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <TextField
+            fullWidth
+            label="Password"
+            variant="outlined"
+            margin="normal"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Button
+            fullWidth
+            type="submit"
+            variant="contained"
+            sx={{ mt: 2, bgcolor: "primary.main" }}
+          >
+            Register
+          </Button>
+        </form>
+        <Typography align="center" sx={{ mt: 2 }}>
+          Already have an account?{" "}
+          <Link to="/login" style={{ color: "#1976d2", textDecoration: "none", cursor: "pointer" }}>
+            Sign in
+          </Link>
+        </Typography>
+      </Box>
+    </Container>
   );
 };
 
